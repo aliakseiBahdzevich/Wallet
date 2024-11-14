@@ -25,8 +25,9 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import RootNavigation from './src/navigation/rootNavigation';
-import { store } from './src/redux/store/store';
+import { store, persistor } from './src/redux/store/store';
 import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react';
 
 
 
@@ -34,10 +35,12 @@ function App(): React.JSX.Element {
 
   return (
     <Provider store={store}>
-      <SafeAreaView style={styles.container}>
-        <StatusBar barStyle="dark-content" />
-        <RootNavigation/>
-      </SafeAreaView> 
+      <PersistGate loading={null} persistor={persistor}>
+        <SafeAreaView style={styles.container}>
+          <StatusBar barStyle="dark-content" />
+          <RootNavigation />
+        </SafeAreaView>
+      </PersistGate>
     </Provider>
   );
 }

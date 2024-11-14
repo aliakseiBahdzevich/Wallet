@@ -44,25 +44,12 @@ const CategoriesScreen = () => {
     dispatch(deleteCategory({currentName: currentNameOfCtgr}))
   }
 
-  // const renderItem = useCallback(
-  //   ({item}: {item: {name: string, sum: number}})=>(
-  //     <View style={{flexDirection: 'row'}}>
-  //     <Text style={{color: 'black', fontSize: 16, marginVertical: 8}}>{item.name}</Text>
-  //     <View style={{flex: 1}}/>
-  //     <TouchableOpacity onPress={()=>{openChangeModal(); setCurrentNameOfCtgr(item.name)}}>
-  //       <Pen/>
-  //     </TouchableOpacity>
-  //     </View>
-  //   ), [categories.length])
   const renderItem = useCallback(
     ({ item }: { item: { name: string; sum: number } }) => (
       <CategoryItem item={item} onEdit={() => { openChangeModal(); setCurrentNameOfCtgr(item.name) }} />
     ),[categories.length]
   );
     
-    
-
-
   return (
     <>
     <PaperProvider>

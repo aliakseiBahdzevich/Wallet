@@ -15,6 +15,7 @@ const BudgetScreen = () => {
   const dispatch = useAppDispatch();
   const balance = useAppSelector((state: RootState) => state.budget.balance);
   const today = new Date().toISOString().split('T')[0];
+  console.log(typeof today);
   const dailyRecords = useAppSelector((state: RootState) => state.budget.dailyRecords[today]);
   const dailyIncomes = dailyRecords?.income || 0;
   const dailyExpenses = dailyRecords?.expenses || 0;

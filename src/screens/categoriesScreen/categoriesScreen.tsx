@@ -8,6 +8,7 @@ import { TextInput, Provider as PaperProvider } from 'react-native-paper';
 import { addCategory, changeNameCategory, deleteCategory } from '../../redux/features/categoriesSlice';
 import CategoryModal from '../../components/CategoryModal'
 import CategoryItem from '../../components/CategoryItem';
+import CustomBttnSvg from '../../components/CustomBttnSvg';
 
 const CategoriesScreen = () => {
 
@@ -59,9 +60,9 @@ const CategoriesScreen = () => {
       </View>
       <FlatList data={categories} renderItem={renderItem} />
       
-      <TouchableOpacity style={styles.opacity} onPress={openModal}>
+      <CustomBttnSvg onPress={openModal} style={styles.customBttn}>
         <Text style={styles.opacityText}>Добавить категорию</Text>
-      </TouchableOpacity>
+      </CustomBttnSvg>
 
       <CategoryModal
           isVisible={modalVisible}
@@ -132,6 +133,13 @@ const styles = StyleSheet.create({
       borderRadius: 12, 
       width: '100%',
       
+    },
+    customBttn: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#39E079',
+      height: 60,
+      borderRadius: 12
     }
 });
 

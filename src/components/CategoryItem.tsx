@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Pen from '../assets/pen.svg';
+import CustomBttnSvg from '../components/CustomBttnSvg';
 
 interface CategoryItemProps {
     item: { name: string; sum: number };
@@ -12,21 +13,31 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ item, onEdit }) => {
       <View style={styles.container}>
         <Text style={styles.name}>{item.name}</Text>
         <View style={{flex: 1}}/>
-        <TouchableOpacity onPress={onEdit}>
+        <CustomBttnSvg onPress={onEdit} style={styles.customBttn}>
           <Pen/>
-        </TouchableOpacity>
+        </CustomBttnSvg> 
       </View>
     );
 };
 
 const styles = StyleSheet.create({
     name: {
-        color: 'black',
-        fontSize: 16, 
-        marginVertical: 8
+      color: 'black',
+      fontSize: 16, 
+      marginVertical: 15
     },
     container: {
-        flexDirection: 'row'
+      flexDirection: 'row'
+    },
+    customBttn: {
+      width: 35,
+      height: 35, 
+      backgroundColor: '#FFFFF',
+      borderColor: 'grey',
+      borderWidth: 1,
+      borderRadius: 8,
+      alignItems: 'center',
+      justifyContent: 'center'
     }
 })
   

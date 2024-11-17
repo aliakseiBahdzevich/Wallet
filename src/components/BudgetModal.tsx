@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, FlexAlignType, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import { TextInput } from 'react-native-paper';
+import CustomBttnSvg from '../components/CustomBttnSvg';
 
 interface CategoryModalProps {
     isVisible: boolean;
@@ -38,14 +39,14 @@ interface CategoryModalProps {
             mode="outlined"
           />
           {incomeButtonText && incomeButtonPress &&
-            <TouchableOpacity onPress={() => { incomeButtonPress(); onClose()}} style={{ width: '100%', backgroundColor: '#39E079', borderRadius: 12, padding: 16 }}>
+            <CustomBttnSvg onPress={() => { incomeButtonPress(); onClose()}} style={{ width: '100%', backgroundColor: '#39E079', borderRadius: 12, padding: 16 }}>
               <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>{incomeButtonText}</Text>
-            </TouchableOpacity>
+            </CustomBttnSvg>
           }
           {expenseButtonText && expenseButtonPress &&
-            <TouchableOpacity onPress={() => { expenseButtonPress(); onClose()}} style={{ width: '100%', backgroundColor: '#E05139', borderRadius: 12, padding: 16 }}>
+            <CustomBttnSvg onPress={() => { expenseButtonPress(); onClose()}} style={{ width: '100%', backgroundColor: '#E05139', borderRadius: 12, padding: 16 }}>
               <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>{expenseButtonText}</Text>
-            </TouchableOpacity>
+            </CustomBttnSvg>
           }
         </View>
       </Modal>

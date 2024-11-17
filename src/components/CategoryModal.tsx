@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, FlexAlignType, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import { TextInput } from 'react-native-paper';
+import CustomBttnSvg from '../components/CustomBttnSvg';
 
 interface CategoryModalProps {
     isVisible: boolean;
@@ -36,13 +37,13 @@ const CategoryModal: React.FC<CategoryModalProps> = ({
             onChangeText={onChangeInput}
             mode='outlined'
           />
-          <TouchableOpacity onPress={()=>{onButtonPress(); onClose()}} style={{ marginBottom: 10, width: '100%', backgroundColor: '#39E079', borderRadius: 12, padding: 16}}>
+          <CustomBttnSvg onPress={()=>{onButtonPress(); onClose()}} style={{ marginBottom: 10, width: '100%', backgroundColor: '#39E079', borderRadius: 12, padding: 16}}>
             <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>{buttonText}</Text>
-          </TouchableOpacity>
+          </CustomBttnSvg>
           {deleteButtonText && onDeleteButtonPress &&
-            <TouchableOpacity onPress={()=>{onDeleteButtonPress(); onClose()}} style={{width: '100%', backgroundColor: '#E05139', borderRadius: 12, padding: 16}}>
+            <CustomBttnSvg onPress={()=>{onDeleteButtonPress(); onClose()}} style={{width: '100%', backgroundColor: '#E05139', borderRadius: 12, padding: 16}}>
               <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>{deleteButtonText}</Text>
-            </TouchableOpacity>
+            </CustomBttnSvg>
           }
         </View>
       </Modal>

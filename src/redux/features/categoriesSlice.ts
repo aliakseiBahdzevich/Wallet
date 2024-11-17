@@ -33,10 +33,14 @@ export const categoriesSlice = createSlice({
       const newCategories = state.categories.filter(item => item.name !== action.payload.currentName)
       state.categories = newCategories
     },
+    addSumCategory: (state, action: PayloadAction<{name: string, sum: number}>) => {
+      const index = state.categories.findIndex(item => item.name === action.payload.name)
+      index !== -1 && (state.categories[index].sum += action.payload.sum)
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const {addCategory, changeNameCategory, deleteCategory} = categoriesSlice.actions
+export const {addCategory, changeNameCategory, deleteCategory, addSumCategory} = categoriesSlice.actions
 
 export default categoriesSlice.reducer

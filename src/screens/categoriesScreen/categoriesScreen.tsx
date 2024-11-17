@@ -34,10 +34,12 @@ const CategoriesScreen = () => {
   }, []);
 
   const addCat = () => {
+    if (newCategory === '') return
     dispatch(addCategory({name: newCategory, sum: 0}))
   }
 
   const changeName = () => {
+    if (newNameOfCtgr === '') return
     dispatch(changeNameCategory({currentName: currentNameOfCtgr, sum: 0, newName: newNameOfCtgr}))
   }
 

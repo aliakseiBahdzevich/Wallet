@@ -13,6 +13,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ item, onEdit }) => {
       <View style={styles.container}>
         <Text style={styles.name}>{item.name}</Text>
         <View style={{flex: 1}}/>
+        {/* <Text style={styles.name}>{item.sum}</Text> */}
         <CustomBttnSvg onPress={onEdit} style={styles.customBttn}>
           <Pen/>
         </CustomBttnSvg> 

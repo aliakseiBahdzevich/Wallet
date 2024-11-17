@@ -8,6 +8,15 @@ import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
 import { addExpense, addIncome } from '../../redux/features/budgetSlice';
 import BudgetModal from '../../components/BudgetModal'
 import BudgetInfo from '../../components/BudgetInfo';
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart
+} from "react-native-chart-kit";
+import { Dropdown } from 'react-native-element-dropdown';
 
 
 
@@ -15,15 +24,47 @@ const BudgetScreen = () => {
   const dispatch = useAppDispatch();
   const balance = useAppSelector((state: RootState) => state.budget.balance);
   const today = new Date().toISOString().split('T')[0];
-  console.log(typeof today);
   const dailyRecords = useAppSelector((state: RootState) => state.budget.dailyRecords[today]);
   const dailyIncomes = dailyRecords?.income || 0;
   const dailyExpenses = dailyRecords?.expenses || 0;
+
+  const categories = useAppSelector((state: RootState) => state.categories.categories);
 
   const [incomesModalVisible, setIncomesModalVisible] = useState(false);
   const [expensesModalVisible, setExpensesModalVisible] = useState(false);
   const [incomes, setIncomes] = useState<string>('');  
   const [expenses, setExpenses] = useState<string>(''); 
+  // const data = {
+  //   labels: ["January", "February", "March", "April", "May", "June"],
+  //   datasets: [
+  //     {
+  //       data: [20, 45, 28, 80, 99, 43]
+  //     }
+  //   ]
+  // };
+  const labels = categories.map(item => item.name);
+  const datasets = categories.map(item => item.sum);
+  const data = {
+    labels,
+    datasets: [
+      {
+        data: datasets
+      }
+    ]}
+  const chartConfig = {
+    backgroundGradientFrom: "#1E2923",
+    backgroundGradientTo: "#08130D",
+    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    style: {
+      borderRadius: 16,
+    },
+    propsForDots: {
+      r: "6",
+      strokeWidth: "2",
+      stroke: "#ffa726",
+    },
+  };
 
   const handleChangeText = useCallback((newText: string) => {
     if (/^\d*\.?\d{0,2}$/.test(newText)) {
@@ -92,6 +133,18 @@ const BudgetScreen = () => {
           <Text style={styles.expenses}>Расходы</Text>
           <Text style={styles.expensesNum}>BYN {dailyExpenses}</Text>
           <Text style={[styles.expenses, { color: '#7D9F7D' }]}>Сегодня</Text>
+          <View style={{alignItems: 'center', justifyContent: 'center', width: '100%', borderColor: 'black', borderWidth: 2}}>
+            <BarChart
+              style={styles.graphStyle}
+              data={data}
+              width={500}
+              height={220}
+              yAxisLabel="$"
+              chartConfig={chartConfig}
+              verticalLabelRotation={-90}
+              yAxisSuffix="" // Добавьте это свойство
+            />
+          </View>
         </View>
 
         <TouchableOpacity style={styles.opacity}>
@@ -149,7 +202,7 @@ const styles = StyleSheet.create({
   statsView: {
     borderColor: '#D1DEE5', 
     borderWidth: 1,
-    height: '53%', 
+    // height: '53%', 
     width: '100%', 
     marginTop: 24, 
     borderRadius: 12, 
@@ -183,7 +236,22 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     backgroundColor: '#F7FAFA'
-  }
+  },
+  // graphStyle: {
+  //   marginTop: 8,
+  //   borderRadius: 16,
+  //   backgroundColor: 'white',
+  //   paddingHorizontal: 0,
+  //   alignItems: 'center',
+  //   justifyContent: "center"
+  // },
+  graphStyle: {
+    marginVertical: 8,
+    borderRadius: 16,
+    backgroundColor: 'white',
+    paddingHorizontal: 10,
+    transform: [{ rotate: '90deg' }],  // Поворот графика на 90 градусов
+  },
 
 
 });

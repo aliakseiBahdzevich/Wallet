@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CategoriesScreen from '../screens/categoriesScreen/categoriesScreen';
-import SetUpBudgetScreen from '../screens/setUpBudgetScreen/setUpBudgetScreen';
+import SettingsScreen from '../screens/settingsScreen/settingsScreen';
 import BudgetScreen from '../screens/budgetScreen/budgetScreen';
 import Budget from '../assets/budget.svg';
 import SetUp from '../assets/setUp.svg';
@@ -36,8 +36,8 @@ const TabNavigation = () => {
         }}
       />
       <Tab.Screen 
-        name="Внести" 
-        component={SetUpBudgetScreen} 
+        name="Настройки" 
+        component={SettingsScreen} 
         options={{
           tabBarIcon: ({ color, size }) => (
             <SetUp/>

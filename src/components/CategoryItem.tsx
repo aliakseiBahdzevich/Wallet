@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Pen from '../assets/pen.svg';
 import CustomBttnSvg from '../components/CustomBttnSvg';
+import { useAppSelector } from '../redux/store/hooks';
+import { RootState } from '../redux/store/store';
 
 interface CategoryItemProps {
     item: { name: string; sum: number };
@@ -9,6 +11,9 @@ interface CategoryItemProps {
 }
 
 const CategoryItem: React.FC<CategoryItemProps> = ({ item, onEdit }) => {
+
+  const currency = useAppSelector((state: RootState) => state.budget.currency);
+
     return (
       <View style={styles.container}>
         <Text style={styles.name}>{item.name}</Text>
@@ -17,7 +22,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ item, onEdit }) => {
           <CustomBttnSvg onPress={onEdit} style={styles.customBttn}>
             <Pen/>
           </CustomBttnSvg> :
-          <Text style={styles.name}>{item.sum} BYN</Text>
+          <Text style={styles.name}>{item.sum} {currency.symbol}</Text>
         }
       </View>
     );

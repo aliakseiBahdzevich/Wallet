@@ -28,7 +28,7 @@ const CategoryModal: React.FC<CategoryModalProps> = ({
     deleteButtonText,
   }) => {
     return (
-      <Modal isVisible={isVisible} onBackdropPress={onClose}>
+      <Modal isVisible={isVisible} onBackdropPress={onClose} animationIn={"zoomIn"} animationOut={"zoomOut"}>
         <View style={styles.modalView}>
           <TextInput
             style={{ marginBottom: 10, width: '100%' }}

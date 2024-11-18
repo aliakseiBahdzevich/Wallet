@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import CustomBttnSvg from '../components/CustomBttnSvg';
+import { RootState } from '../redux/store/store';
+import { useAppSelector } from '../redux/store/hooks';
 
 interface BudgetInfoProps {
     label: string;
@@ -15,11 +17,12 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({
     onPress, 
     buttonSvg 
 }) => {
+    const currency = useAppSelector((state: RootState) => state.budget.currency);
     return(
         <View style={styles.budgetView}>
           <Text style={styles.budgetTextView}>{label}</Text>
           <View style={{ flex: 1 }} />
-          <Text style={styles.budgetTextView}>{parseFloat(value.toFixed(2))} BYN</Text>
+          <Text style={styles.budgetTextView}>{parseFloat(value.toFixed(2))} {currency.symbol}</Text>
           {buttonSvg ?
             <CustomBttnSvg onPress={onPress} style={styles.customBttn}>
                 {buttonSvg}

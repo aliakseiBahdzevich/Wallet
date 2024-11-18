@@ -40,7 +40,7 @@ interface CategoryModalProps {
     const [name, setName] = useState('');
     
     return (
-      <Modal isVisible={isVisible} onBackdropPress={()=>{onClose(); setName(''); setValue('')}}>
+      <Modal isVisible={isVisible} onBackdropPress={()=>{onClose(); setName(''); setValue('')}} animationIn={"zoomIn"} animationOut={"zoomOut"}>
         <View style={styles.modalView}>
           <TextInput
             style={{ marginBottom: 10, width: '100%' }}

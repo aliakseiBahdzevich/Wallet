@@ -10,11 +10,13 @@ export interface DailyRecord {
 export interface BudgetState {
   balance: number;
   dailyRecords: {[date: string]: DailyRecord}
+  currency: {code: string, symbol: string, name: string}
 }
 
 const initialState: BudgetState = {
   balance: 0,
-  dailyRecords: {}
+  dailyRecords: {},
+  currency: {code: 'USD', symbol: '$', name: 'Доллар США'}
 }
 
 export const budgetSlice = createSlice({
@@ -38,11 +40,14 @@ export const budgetSlice = createSlice({
       state.balance -= action.payload.expenses; 
     },
 
+    chooseCurrency: (state, action: PayloadAction<{code: string, symbol: string, name: string}>) => {
+      state.currency = action.payload;
+    },
     
   },
 })
 
 // Action creators are generated for each case reducer function
-export const {addExpense, addIncome} = budgetSlice.actions
+export const {addExpense, addIncome, chooseCurrency} = budgetSlice.actions
 
 export default budgetSlice.reducer

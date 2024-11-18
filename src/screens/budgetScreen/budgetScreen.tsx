@@ -38,6 +38,7 @@ const BudgetScreen = () => {
   const dailyExpenses = dailyRecords?.expenses || 0;
   const sumCtgrs = categories.reduce((acc, item) => acc + item.sum, 0);
   const withoutCtgry = Math.abs(dailyExpenses - sumCtgrs)
+  const currency = useAppSelector((state: RootState) => state.budget.currency);
   
   const handleChangeText = useCallback((newText: string) => {
     if (/^\d*\.?\d{0,2}$/.test(newText)) {
@@ -110,22 +111,22 @@ const BudgetScreen = () => {
 
         <View style={styles.statsView}>
           <Text style={styles.expenses}>Расходы</Text>
-          <Text style={styles.expensesNum}>BYN {dailyExpenses}</Text>
+          <Text style={styles.expensesNum}> {currency.symbol} {dailyExpenses}</Text>
           <Text style={[styles.expenses, { color: '#7D9F7D' }]}>Сегодня</Text>
           <View style={styles.statsView}>
             <FlatList data={categories} renderItem={renderItem} />
             <View style={{marginVertical: 15, flexDirection: 'row'}}>
               <Text style={[styles.expenses]}>Без категории</Text>
               <View style={{flex: 1}}/>
-              <Text style={[styles.expenses]}>{withoutCtgry} BYN</Text>
+              <Text style={[styles.expenses]}>{withoutCtgry} {currency.symbol}</Text>
             </View>
            
           </View>
         </View>
 
-        <TouchableOpacity style={styles.opacity}>
+        {/* <TouchableOpacity style={styles.opacity}>
           <Text style={styles.opacityText}>Создать новый бюджет</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <BudgetModal
           isVisible={incomesModalVisible}

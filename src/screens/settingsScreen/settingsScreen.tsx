@@ -6,7 +6,7 @@ import CustomBttnSvg from '../../components/CustomBttnSvg';
 import { Dropdown } from 'react-native-element-dropdown';
 import { currencies } from '../../assets/currencies';
 import Modal from 'react-native-modal';
-import { useAppDispatch } from '../../redux/store/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
 import { chooseCurrency } from '../../redux/features/budgetSlice';
 import CurrencyModal from '../../components/CurrencyModal';
 
@@ -16,6 +16,7 @@ const SettingsScreen = () => {
 
   const dispatch = useAppDispatch();
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const currentCurrency = useAppSelector((state: any) => state.budget.currency);
 
   const handleOpen = () => {
     setIsVisible(true);
@@ -27,6 +28,12 @@ const SettingsScreen = () => {
 
   return (
    <View style={styles.container}>
+    <View style={styles.view}>
+      <Text style={styles.text}>Текущая валюта:</Text>
+      <View style={{flex: 1}}/>
+      <Text style={styles.text}>{currentCurrency.name} ({currentCurrency.code})</Text>
+    </View>
+    {/* <Text style={styles.text}>Текущая валюта</Text> */}
     <CustomBttnSvg style={styles.button} onPress={handleOpen}>
       <Text style={styles.buttonText}>Сменить валюту</Text>
     </CustomBttnSvg>
@@ -39,43 +46,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1, 
     alignItems: 'center', 
-    justifyContent: 'center',
+    // justifyContent: 'center',
     padding: 16
-  },
-  modalView: {
-    backgroundColor: '#F7FAFA',
-    padding: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 12,
-    width: '100%',
-  },
-  dropdown: {
-    margin: 16,
-    height: 50,
-    borderBottomColor: 'white',
-    borderBottomWidth: 0.5,
-    width: '100%',
-  },
-  icon: {
-    marginRight: 5,
-  },
-  placeholderStyle: {
-    fontSize: 16,
-    
-  },
-  selectedTextStyle: {
-    fontSize: 16,
-    
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
-    width: '100%',
   },
   button: {
     width: '100%', 
@@ -90,6 +62,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold', 
     fontSize: 16, 
     lineHeight: 24
+  },
+  text: {
+    fontSize: 16,
+    fontWeight: 'regular',
+  },
+  view: {
+    flexDirection: 'row',
+    marginVertical: 16
   }
 });
 

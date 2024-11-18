@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withDelay, withSequence, withSpring, withTiming } from 'react-native-reanimated';
 import Pen from '../../assets/pen.svg';
@@ -26,6 +26,12 @@ const CurrencyModal: React.FC<CurrencyModalProps> = ({
     const [code, setCode] = useState('');
     const [symbol, setSymbol] = useState('');
     const data = currencies.map((item, index)=> ({label: item.name, value: `${item.name}-${index}`, code: item.code, symbol: item.symbol}));
+    const modalClose = () => {
+        if(value!==''){
+            dispatch(chooseCurrency({code: code, name: name, symbol: symbol})); 
+        } 
+        onClose(); setName(''); setValue('')
+    }
 
     return (
         <Modal 
@@ -59,9 +65,7 @@ const CurrencyModal: React.FC<CurrencyModalProps> = ({
                 />
         <CustomBttnSvg 
           style = {styles.button} 
-          onPress = {()=>{
-            dispatch(chooseCurrency({code: code, name: name, symbol: symbol})); 
-            onClose(); setName(''); setValue('')}}
+          onPress = {modalClose}
         >
           <Text style={styles.buttonText}>Сохранить</Text>
         </CustomBttnSvg>

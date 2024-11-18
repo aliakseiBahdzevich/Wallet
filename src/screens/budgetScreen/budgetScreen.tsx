@@ -114,7 +114,7 @@ const BudgetScreen = () => {
           <Text style={styles.expensesNum}> {currency.symbol} {dailyExpenses}</Text>
           <Text style={[styles.expenses, { color: '#7D9F7D' }]}>Сегодня</Text>
           <View style={styles.statsView}>
-            <FlatList data={categories} renderItem={renderItem} />
+            <FlatList data={categories} renderItem={renderItem} scrollEnabled={false}/>
             <View style={{marginVertical: 15, flexDirection: 'row'}}>
               <Text style={[styles.expenses]}>Без категории</Text>
               <View style={{flex: 1}}/>

@@ -6,13 +6,15 @@ import Animated, { useAnimatedStyle, useSharedValue, withDelay, withSequence, wi
 interface CustomBttnSvg {
   onPress?: () => void
   style?: StyleProp<ViewStyle>;
-  children?: React.ReactNode
+  children?: React.ReactNode;
+  disabled?: boolean
 }
 
 const CustomBttnSvg: React.FC<CustomBttnSvg> = ({
   onPress,
   style,
-  children
+  children,
+  disabled
 }) => {
 
   const scale = useSharedValue(1); // Изменение масштаба
@@ -40,6 +42,7 @@ const CustomBttnSvg: React.FC<CustomBttnSvg> = ({
     <TouchableWithoutFeedback 
       onPressIn={() => {handlePressIn(); onPress?.()}}
       onPressOut={() => handlePressOut()}
+      disabled={disabled}
     >
       <Animated.View style={[style, animatedStyles]}>
         {children}

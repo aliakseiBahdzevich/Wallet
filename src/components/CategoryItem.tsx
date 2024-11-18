@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import Pen from '../assets/pen.svg';
+import Pen from '../assets/pictures/pen.svg';
 import CustomBttnSvg from '../components/CustomBttnSvg';
 import { useAppSelector } from '../redux/store/hooks';
 import { RootState } from '../redux/store/store';

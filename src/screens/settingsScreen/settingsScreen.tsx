@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withDelay, withSequence, withSpring, withTiming } from 'react-native-reanimated';
-import Pen from '../../assets/pen.svg';
+import Pen from '../../assets/pictures/pen.svg';
 import CustomBttnSvg from '../../components/CustomBttnSvg';
 import { Dropdown } from 'react-native-element-dropdown';
-import { currencies } from '../../assets/currencies';
+import { currencies } from '../../assets/files/currencies';
 import Modal from 'react-native-modal';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
 import { chooseCurrency } from '../../redux/features/budgetSlice';

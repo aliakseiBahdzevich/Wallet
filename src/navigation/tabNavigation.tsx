@@ -4,9 +4,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CategoriesScreen from '../screens/categoriesScreen/categoriesScreen';
 import SettingsScreen from '../screens/settingsScreen/settingsScreen';
 import BudgetScreen from '../screens/budgetScreen/budgetScreen';
-import Budget from '../assets/budget.svg';
-import SetUp from '../assets/setUp.svg';
-import Ctgrs from '../assets/categories.svg';
+import Budget from '../assets/pictures/budget.svg';
+import SetUp from '../assets/pictures/setUp.svg';
+import Ctgrs from '../assets/pictures/categories.svg';
 
 
 

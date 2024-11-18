@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, Touchable, TouchableOpacity, Button} from 'react-native';
-import Pen from '../../assets/pen.svg';
+import Pen from '../../assets/pictures/pen.svg';
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import type { RootState } from '../../redux/store/store';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';

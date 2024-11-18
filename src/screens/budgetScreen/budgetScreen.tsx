@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity, ScrollView, useWindowDimensions, FlatList } from 'react-native';
 import Pen from '../../assets/pen.svg';
 import { TextInput, Provider as PaperProvider } from 'react-native-paper';
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
@@ -17,55 +17,28 @@ import {
   StackedBarChart
 } from "react-native-chart-kit";
 import { Dropdown } from 'react-native-element-dropdown';
+import CategoryItem from '../../components/CategoryItem';
 
 
 
 const BudgetScreen = () => {
+
+
+  const [incomesModalVisible, setIncomesModalVisible] = useState(false);
+  const [expensesModalVisible, setExpensesModalVisible] = useState(false);
+  const [incomes, setIncomes] = useState<string>('');  
+  const [expenses, setExpenses] = useState<string>(''); 
+
+  const categories = useAppSelector((state: RootState) => state.categories.categories);
   const dispatch = useAppDispatch();
   const balance = useAppSelector((state: RootState) => state.budget.balance);
   const today = new Date().toISOString().split('T')[0];
   const dailyRecords = useAppSelector((state: RootState) => state.budget.dailyRecords[today]);
   const dailyIncomes = dailyRecords?.income || 0;
   const dailyExpenses = dailyRecords?.expenses || 0;
-
-  const categories = useAppSelector((state: RootState) => state.categories.categories);
-
-  const [incomesModalVisible, setIncomesModalVisible] = useState(false);
-  const [expensesModalVisible, setExpensesModalVisible] = useState(false);
-  const [incomes, setIncomes] = useState<string>('');  
-  const [expenses, setExpenses] = useState<string>(''); 
-  // const data = {
-  //   labels: ["January", "February", "March", "April", "May", "June"],
-  //   datasets: [
-  //     {
-  //       data: [20, 45, 28, 80, 99, 43]
-  //     }
-  //   ]
-  // };
-  const labels = categories.map(item => item.name);
-  const datasets = categories.map(item => item.sum);
-  const data = {
-    labels,
-    datasets: [
-      {
-        data: datasets
-      }
-    ]}
-  const chartConfig = {
-    backgroundGradientFrom: "#1E2923",
-    backgroundGradientTo: "#08130D",
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-    style: {
-      borderRadius: 16,
-    },
-    propsForDots: {
-      r: "6",
-      strokeWidth: "2",
-      stroke: "#ffa726",
-    },
-  };
-
+  const sumCtgrs = categories.reduce((acc, item) => acc + item.sum, 0);
+  const withoutCtgry = Math.abs(dailyExpenses - sumCtgrs)
+  
   const handleChangeText = useCallback((newText: string) => {
     if (/^\d*\.?\d{0,2}$/.test(newText)) {
       if (incomesModalVisible) {
@@ -102,6 +75,12 @@ const BudgetScreen = () => {
     const roundedValue = parseFloat(expenses || '0').toFixed(2);
     dispatch(addExpense({ expenses: parseFloat(roundedValue), date: today }));
   }, [expenses, today])
+  
+  const renderItem = useCallback(
+    ({ item }: { item: { name: string; sum: number } }) => (
+      <CategoryItem item={item} />
+    ),[categories.length]
+  );
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -133,17 +112,14 @@ const BudgetScreen = () => {
           <Text style={styles.expenses}>Расходы</Text>
           <Text style={styles.expensesNum}>BYN {dailyExpenses}</Text>
           <Text style={[styles.expenses, { color: '#7D9F7D' }]}>Сегодня</Text>
-          <View style={{alignItems: 'center', justifyContent: 'center', width: '100%', borderColor: 'black', borderWidth: 2}}>
-            <BarChart
-              style={styles.graphStyle}
-              data={data}
-              width={500}
-              height={220}
-              yAxisLabel="$"
-              chartConfig={chartConfig}
-              verticalLabelRotation={-90}
-              yAxisSuffix="" // Добавьте это свойство
-            />
+          <View style={styles.statsView}>
+            <FlatList data={categories} renderItem={renderItem} />
+            <View style={{marginVertical: 15, flexDirection: 'row'}}>
+              <Text style={[styles.expenses]}>Без категории</Text>
+              <View style={{flex: 1}}/>
+              <Text style={[styles.expenses]}>{withoutCtgry} BYN</Text>
+            </View>
+           
           </View>
         </View>
 
@@ -204,10 +180,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     // height: '53%', 
     width: '100%', 
-    marginTop: 24, 
+    marginVertical: 24, 
     borderRadius: 12, 
     padding: 24, 
-    marginBottom: 36
   },
   expenses: {
     fontWeight: 'medium', 
@@ -236,24 +211,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     backgroundColor: '#F7FAFA'
-  },
-  // graphStyle: {
-  //   marginTop: 8,
-  //   borderRadius: 16,
-  //   backgroundColor: 'white',
-  //   paddingHorizontal: 0,
-  //   alignItems: 'center',
-  //   justifyContent: "center"
-  // },
-  graphStyle: {
-    marginVertical: 8,
-    borderRadius: 16,
-    backgroundColor: 'white',
-    paddingHorizontal: 10,
-    transform: [{ rotate: '90deg' }],  // Поворот графика на 90 градусов
-  },
-
-
+  }
 });
 
 export default BudgetScreen;

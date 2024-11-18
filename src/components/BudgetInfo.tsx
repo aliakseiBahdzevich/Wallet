@@ -19,7 +19,7 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({
         <View style={styles.budgetView}>
           <Text style={styles.budgetTextView}>{label}</Text>
           <View style={{ flex: 1 }} />
-          <Text style={styles.budgetTextView}>BYN {parseFloat(value.toFixed(2))}</Text>
+          <Text style={styles.budgetTextView}>{parseFloat(value.toFixed(2))} BYN</Text>
           {buttonSvg ?
             <CustomBttnSvg onPress={onPress} style={styles.customBttn}>
                 {buttonSvg}

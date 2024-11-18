@@ -5,7 +5,7 @@ import CustomBttnSvg from '../components/CustomBttnSvg';
 
 interface CategoryItemProps {
     item: { name: string; sum: number };
-    onEdit: () => void
+    onEdit?: () => void
 }
 
 const CategoryItem: React.FC<CategoryItemProps> = ({ item, onEdit }) => {
@@ -13,10 +13,12 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ item, onEdit }) => {
       <View style={styles.container}>
         <Text style={styles.name}>{item.name}</Text>
         <View style={{flex: 1}}/>
-        {/* <Text style={styles.name}>{item.sum}</Text> */}
-        <CustomBttnSvg onPress={onEdit} style={styles.customBttn}>
-          <Pen/>
-        </CustomBttnSvg> 
+        {onEdit ?
+          <CustomBttnSvg onPress={onEdit} style={styles.customBttn}>
+            <Pen/>
+          </CustomBttnSvg> :
+          <Text style={styles.name}>{item.sum} BYN</Text>
+        }
       </View>
     );
 };

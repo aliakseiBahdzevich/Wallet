@@ -4,7 +4,8 @@ import Pen from '../assets/pictures/pen.svg';
 import CustomBttnSvg from '../components/CustomBttnSvg';
 import { useAppSelector } from '../redux/store/hooks';
 import { RootState } from '../redux/store/store';
-import { useTheme } from '../context/ThemeContext';
+import { themes } from '../styles/themes';
+
 
 interface CategoryItemProps {
     item: { name: string; sum: number };
@@ -14,7 +15,8 @@ interface CategoryItemProps {
 const CategoryItem: React.FC<CategoryItemProps> = ({ item, onEdit }) => {
 
   const currency = useAppSelector((state: RootState) => state.budget.currency);
-  const {theme} = useTheme()
+  const isDarkMode = useAppSelector((state) => state.theme.isDarkMode);
+  const theme = isDarkMode ? themes.dark : themes.light;
 
     return (
       <View style={styles.container}>

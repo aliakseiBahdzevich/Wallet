@@ -9,14 +9,16 @@ import { addCategory, changeNameCategory, deleteCategory } from '../../redux/fea
 import CategoryModal from '../../components/CategoryModal'
 import CategoryItem from '../../components/CategoryItem';
 import CustomBttnSvg from '../../components/CustomBttnSvg';
-import { useTheme } from '../../context/ThemeContext';
+import { themes } from '../../styles/themes';
 
 
 const CategoriesScreen = () => {
 
-  const {theme} = useTheme();
 
   const dispatch = useAppDispatch()
+  const isDarkMode = useAppSelector((state) => state.theme.isDarkMode);
+  const theme = isDarkMode ? themes.dark : themes.light;
+
   const categories = useAppSelector((state: RootState) => state.categories.categories)
   const [modalVisible, setModalVisible] = useState(false)
   const [modalChangeVisible, setModalChangeVisible] = useState(false)

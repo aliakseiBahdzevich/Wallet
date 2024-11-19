@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import categoriesReducer from '../features/categoriesSlice'
 import budgetReducer from '../features/budgetSlice'
+import themeReducer from '../features/themeSlice'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { persistStore, persistReducer } from 'redux-persist';
 import { combineReducers } from 'redux';
@@ -25,6 +26,7 @@ const persistConfig = {
 const reducers = combineReducers({
   categories: categoriesReducer,
   budget: budgetReducer,
+  theme: themeReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers)
@@ -32,10 +34,6 @@ const persistedReducer = persistReducer(persistConfig, reducers)
 
 export const store = configureStore({
   reducer: persistedReducer,
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware({
-  //     serializableCheck: false, // Отключаем проверку на сериализуемость
-  //   }),
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

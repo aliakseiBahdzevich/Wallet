@@ -6,9 +6,9 @@ import CustomBttnSvg from '../components/CustomBttnSvg';
 import { Dropdown } from 'react-native-element-dropdown';
 import { currencies } from '../assets/files/currencies';
 import Modal from 'react-native-modal';
-import { useAppDispatch } from '../redux/store/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/store/hooks';
 import { chooseCurrency } from '../redux/features/budgetSlice';
-import { useTheme } from '../context/ThemeContext';
+import { themes } from '../styles/themes';
 
 
 
@@ -21,7 +21,8 @@ const CurrencyModal: React.FC<CurrencyModalProps> = ({
     isVisible,
     onClose
   }) => {
-    const {theme} = useTheme(); 
+    const isDarkMode = useAppSelector((state) => state.theme.isDarkMode);
+    const theme = isDarkMode ? themes.dark : themes.light;
     const dispatch = useAppDispatch();
     const [value, setValue] = useState('');
     const [name, setName] = useState('');
@@ -36,6 +37,7 @@ const CurrencyModal: React.FC<CurrencyModalProps> = ({
     }
 
     return (
+      <View style={styles.container}>
         <Modal 
             isVisible={isVisible} 
             onBackdropPress={()=>{
@@ -44,7 +46,8 @@ const CurrencyModal: React.FC<CurrencyModalProps> = ({
                 onClose()
             }} 
             animationIn={"zoomIn"}
-            animationOut={"zoomOut"}>
+            animationOut={"zoomOut"}
+            >
             <View style = {[styles.modalView, {backgroundColor: theme.background}]}>
                 <Dropdown
                     style={styles.dropdown}
@@ -76,6 +79,7 @@ const CurrencyModal: React.FC<CurrencyModalProps> = ({
         </CustomBttnSvg>
         </View>
     </Modal>
+    </View>
    
     )
 }
@@ -88,12 +92,12 @@ const styles = StyleSheet.create({
     padding: 16
   },
   modalView: {
-    backgroundColor: '#F7FAFA',
     padding: 15,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 12,
     width: '100%',
+    
   },
   dropdown: {
     margin: 16,

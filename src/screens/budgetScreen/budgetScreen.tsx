@@ -18,13 +18,14 @@ import {
 } from "react-native-chart-kit";
 import { Dropdown } from 'react-native-element-dropdown';
 import CategoryItem from '../../components/CategoryItem';
-import { useTheme } from '../../context/ThemeContext';
+import { themes } from '../../styles/themes';
 
 
 
 const BudgetScreen = () => {
 
-  const {theme} = useTheme()  
+  const isDarkMode = useAppSelector((state) => state.theme.isDarkMode);
+  const theme = isDarkMode ? themes.dark : themes.light;
   const [incomesModalVisible, setIncomesModalVisible] = useState(false);
   const [expensesModalVisible, setExpensesModalVisible] = useState(false);
   const [incomes, setIncomes] = useState<string>('');  

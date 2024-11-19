@@ -8,7 +8,7 @@ import { RootState } from '../redux/store/store';
 import { useAppDispatch, useAppSelector } from '../redux/store/hooks';
 import { useDispatch } from 'react-redux';
 import { addSumCategory } from '../redux/features/categoriesSlice';
-import { useTheme } from '../context/ThemeContext';
+import { themes } from '../styles/themes';
 
 
 interface CategoryModalProps {
@@ -34,14 +34,16 @@ interface CategoryModalProps {
     expenseButtonPress,
     expenseButtonText,
   }) => {
+    const isDarkMode = useAppSelector((state) => state.theme.isDarkMode);
+    const theme = isDarkMode ? themes.dark : themes.light;
     const categories = useAppSelector((state: RootState) => state.categories.categories);
     const data = categories.map((item, index) => ({label: item.name, value: `${item.name}-${index}`}));
     const dispatch = useAppDispatch();
     const [value, setValue] = useState('');
     const [name, setName] = useState('');
-    const {theme} = useTheme(); 
     
     return (
+      <View style={styles.container}>
       <Modal isVisible={isVisible} onBackdropPress={()=>{onClose(); setName(''); setValue('')}} animationIn={"zoomIn"} animationOut={"zoomOut"}>
         <View style={[styles.modalView, {backgroundColor: theme.background}]}>
           <TextInput
@@ -96,12 +98,19 @@ interface CategoryModalProps {
           }
         </View>
       </Modal>
+      </View>
     );
   });
   
 
   
   const styles = StyleSheet.create({
+    container: {
+      flex: 1, 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      padding: 16
+    },
     modalView: {
       backgroundColor: '#F7FAFA',
       padding: 15,

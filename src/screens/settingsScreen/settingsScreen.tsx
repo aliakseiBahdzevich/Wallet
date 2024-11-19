@@ -7,16 +7,20 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { currencies } from '../../assets/files/currencies';
 import Modal from 'react-native-modal';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
-import { chooseCurrency } from '../../redux/features/budgetSlice';
 import CurrencyModal from '../../components/CurrencyModal';
-import { useTheme } from '../../context/ThemeContext';
+import { themes } from '../../styles/themes';
+import { toggleTheme } from '../../redux/features/themeSlice';
+
 
 
 
 const SettingsScreen = () => {
-  const { theme, toggleTheme } = useTheme();
 
   const dispatch = useAppDispatch();
+
+  const isDarkMode = useAppSelector((state) => state.theme.isDarkMode);
+  const theme = isDarkMode ? themes.dark : themes.light;
+
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const currentCurrency = useAppSelector((state: any) => state.budget.currency);
 
@@ -41,7 +45,7 @@ const SettingsScreen = () => {
     <CustomBttnSvg style={[styles.button, {backgroundColor: theme.button}]} onPress={handleOpen}>
       <Text style={[styles.buttonText, {color: theme.text}]}>Сменить валюту</Text>
     </CustomBttnSvg>
-    <TouchableOpacity onPress={toggleTheme}>
+    <TouchableOpacity onPress={() => dispatch(toggleTheme())}>
       <Text>Сменить тему</Text>
     </TouchableOpacity>
     <CurrencyModal isVisible={isVisible} onClose={handleClose} />

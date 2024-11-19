@@ -3,7 +3,8 @@ import { View, Text, TouchableOpacity, FlexAlignType, StyleSheet } from 'react-n
 import Modal from 'react-native-modal';
 import { TextInput } from 'react-native-paper';
 import CustomBttnSvg from '../components/CustomBttnSvg';
-import { useTheme } from '../context/ThemeContext';
+import { themes } from '../styles/themes';
+import { useAppSelector } from '../redux/store/hooks';
 
 interface CategoryModalProps {
     isVisible: boolean;
@@ -28,8 +29,10 @@ const CategoryModal: React.FC<CategoryModalProps> = ({
     onDeleteButtonPress,
     deleteButtonText,
   }) => {
-    const {theme} = useTheme();
+    const isDarkMode = useAppSelector((state) => state.theme.isDarkMode);
+    const theme = isDarkMode ? themes.dark : themes.light;
     return (
+      <View style={styles.container}>
       <Modal isVisible={isVisible} onBackdropPress={onClose} animationIn={"zoomIn"} animationOut={"zoomOut"}>
         <View style={[styles.modalView, {backgroundColor: theme.background}]}>
           <TextInput
@@ -50,6 +53,7 @@ const CategoryModal: React.FC<CategoryModalProps> = ({
           }
         </View>
       </Modal>
+      </View>
     );
   };
   
@@ -61,7 +65,13 @@ const CategoryModal: React.FC<CategoryModalProps> = ({
       justifyContent: 'center',
       borderRadius: 12,
       width: '100%',
-    }
+    },
+    container: {
+      flex: 1, 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      padding: 16
+    },
   });
   
   export default CategoryModal;

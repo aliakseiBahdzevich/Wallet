@@ -9,7 +9,6 @@ import 'react-native-reanimated'
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -29,22 +28,25 @@ import RootNavigation from './src/navigation/rootNavigation';
 import { store, persistor } from './src/redux/store/store';
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react';
-import {ThemeProvider, useTheme} from './src/context/ThemeContext';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 
 
 function App(): React.JSX.Element {
-  const {theme, toggleTheme} = useTheme();
+  
+  // const isDarkMode = useAppSelector((state) => state.theme.isDarkMode);
+  // const theme = isDarkMode ? themes.dark : themes.light;
+  const height = StatusBar.currentHeight
   return (
     <Provider store={store}>
-      <ThemeProvider>
-        <PersistGate loading={null} persistor={persistor}>
-          <SafeAreaView style={[styles.container, {backgroundColor: theme.background}]}>
-            <StatusBar barStyle="dark-content" />
+      <PersistGate loading={null} persistor={persistor}>
+          <View style={{height: height, backgroundColor: 'red'}}/>
+          <SafeAreaView style={styles.container}>
+            <StatusBar barStyle='dark-content' />
             <RootNavigation />
           </SafeAreaView>
-        </PersistGate>
-      </ThemeProvider>
+    
+      </PersistGate>
     </Provider>
   );
 }
@@ -52,6 +54,7 @@ function App(): React.JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // marginTop: StatusBar.currentHeight
   },
 });
 

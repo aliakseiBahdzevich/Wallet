@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import CustomBttnSvg from '../components/CustomBttnSvg';
 import { RootState } from '../redux/store/store';
+import { themes } from '../styles/themes';
 import { useAppSelector } from '../redux/store/hooks';
-import { useTheme } from '../context/ThemeContext';
 
 interface BudgetInfoProps {
     label: string;
@@ -19,7 +19,8 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({
     buttonSvg 
 }) => {
     const currency = useAppSelector((state: RootState) => state.budget.currency);
-    const {theme} = useTheme();
+    const isDarkMode = useAppSelector((state) => state.theme.isDarkMode);
+    const theme = isDarkMode ? themes.dark : themes.light;
     return(
         <View style={styles.budgetView}>
           <Text style={[styles.budgetTextView, {color: theme.text}]}>{label}</Text>

@@ -4,6 +4,7 @@ import Pen from '../assets/pictures/pen.svg';
 import CustomBttnSvg from '../components/CustomBttnSvg';
 import { useAppSelector } from '../redux/store/hooks';
 import { RootState } from '../redux/store/store';
+import { useTheme } from '../context/ThemeContext';
 
 interface CategoryItemProps {
     item: { name: string; sum: number };
@@ -13,16 +14,17 @@ interface CategoryItemProps {
 const CategoryItem: React.FC<CategoryItemProps> = ({ item, onEdit }) => {
 
   const currency = useAppSelector((state: RootState) => state.budget.currency);
+  const {theme} = useTheme()
 
     return (
       <View style={styles.container}>
-        <Text style={styles.name}>{item.name}</Text>
+        <Text style={[styles.name, {color: theme.text}]}>{item.name}</Text>
         <View style={{flex: 1}}/>
         {onEdit ?
-          <CustomBttnSvg onPress={onEdit} style={styles.customBttn}>
+          <CustomBttnSvg onPress={onEdit} style={[styles.customBttn, {backgroundColor: theme.button}]}>
             <Pen/>
           </CustomBttnSvg> :
-          <Text style={styles.name}>{item.sum} {currency.symbol}</Text>
+          <Text style={[styles.name, {color: theme.text}]}>{item.sum} {currency.symbol}</Text>
         }
       </View>
     );
@@ -40,7 +42,6 @@ const styles = StyleSheet.create({
     customBttn: {
       width: 35,
       height: 35, 
-      backgroundColor: '#FFFFF',
       borderColor: 'grey',
       borderWidth: 1,
       borderRadius: 8,

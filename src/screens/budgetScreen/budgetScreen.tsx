@@ -18,12 +18,13 @@ import {
 } from "react-native-chart-kit";
 import { Dropdown } from 'react-native-element-dropdown';
 import CategoryItem from '../../components/CategoryItem';
+import { useTheme } from '../../context/ThemeContext';
 
 
 
 const BudgetScreen = () => {
 
-
+  const {theme} = useTheme()  
   const [incomesModalVisible, setIncomesModalVisible] = useState(false);
   const [expensesModalVisible, setExpensesModalVisible] = useState(false);
   const [incomes, setIncomes] = useState<string>('');  
@@ -84,10 +85,10 @@ const BudgetScreen = () => {
   );
 
   return (
-    <ScrollView style={styles.scrollView}>
+    <ScrollView style={[styles.scrollView, {backgroundColor: theme.background}]}>
       <View style={styles.container}>
         <View style={styles.titleView}>
-          <Text style={styles.title}>Бюджет</Text>
+          <Text style={[styles.title, {color: theme.text}]}>Бюджет</Text>
         </View>
 
         <BudgetInfo
@@ -110,15 +111,15 @@ const BudgetScreen = () => {
         />
 
         <View style={styles.statsView}>
-          <Text style={styles.expenses}>Расходы</Text>
-          <Text style={styles.expensesNum}> {currency.symbol} {dailyExpenses}</Text>
+          <Text style={[styles.expenses, {color: theme.text}]}>Расходы</Text>
+          <Text style={[styles.expensesNum, {color: theme.text}]}> {currency.symbol} {dailyExpenses}</Text>
           <Text style={[styles.expenses, { color: '#7D9F7D' }]}>Сегодня</Text>
           <View style={styles.statsView}>
             <FlatList data={categories} renderItem={renderItem} scrollEnabled={false}/>
             <View style={{marginVertical: 15, flexDirection: 'row'}}>
-              <Text style={[styles.expenses]}>Без категории</Text>
+              <Text style={[styles.expenses, {color: theme.text}]}>Без категории</Text>
               <View style={{flex: 1}}/>
-              <Text style={[styles.expenses]}>{withoutCtgry} {currency.symbol}</Text>
+              <Text style={[styles.expenses, {color: theme.text}]}>{withoutCtgry} {currency.symbol}</Text>
             </View>
            
           </View>
@@ -157,7 +158,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingHorizontal: 16,    
-    backgroundColor: '#F7FAFA'
   },
   title: {
     fontSize: 18,
@@ -196,19 +196,6 @@ const styles = StyleSheet.create({
     fontSize: 32, 
     lineHeight: 40, 
     marginBottom: 8
-  },
-  opacity: {
-    backgroundColor: '#39E079', 
-    padding: 16, 
-    borderRadius: 12, 
-    width: '100%', 
-    alignItems: 'center'
-  },
-  opacityText: {
-    color: '#141414', 
-    fontWeight: 'bold', 
-    fontSize: 16, 
-    lineHeight: 24
   },
   scrollView: {
     backgroundColor: '#F7FAFA'

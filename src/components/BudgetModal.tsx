@@ -8,6 +8,7 @@ import { RootState } from '../redux/store/store';
 import { useAppDispatch, useAppSelector } from '../redux/store/hooks';
 import { useDispatch } from 'react-redux';
 import { addSumCategory } from '../redux/features/categoriesSlice';
+import { useTheme } from '../context/ThemeContext';
 
 
 interface CategoryModalProps {
@@ -38,21 +39,23 @@ interface CategoryModalProps {
     const dispatch = useAppDispatch();
     const [value, setValue] = useState('');
     const [name, setName] = useState('');
+    const {theme} = useTheme(); 
     
     return (
       <Modal isVisible={isVisible} onBackdropPress={()=>{onClose(); setName(''); setValue('')}} animationIn={"zoomIn"} animationOut={"zoomOut"}>
-        <View style={styles.modalView}>
+        <View style={[styles.modalView, {backgroundColor: theme.background}]}>
           <TextInput
-            style={{ marginBottom: 10, width: '100%' }}
+            style={{ marginBottom: 10, width: '100%', backgroundColor: theme.background }}
             label={label}
             value={inputValue} 
             onChangeText={onChangeInput}
             keyboardType="decimal-pad"
             mode="outlined"
+            textColor={theme.text}
           />
           {incomeButtonText && incomeButtonPress &&
-            <CustomBttnSvg onPress={() => { incomeButtonPress(); onClose()}} style={{ width: '100%', backgroundColor: '#39E079', borderRadius: 12, padding: 16 }}>
-              <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>{incomeButtonText}</Text>
+            <CustomBttnSvg onPress={() => { incomeButtonPress(); onClose()}} style={{ width: '100%', backgroundColor: theme.button, borderRadius: 12, padding: 16}}>
+              <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold', color: theme.text }}>{incomeButtonText}</Text>
             </CustomBttnSvg>
           }
           {expenseButtonText && expenseButtonPress &&
@@ -65,17 +68,19 @@ interface CategoryModalProps {
                 setName('');
                 onClose()
               }} 
-              style={{ width: '100%', backgroundColor: '#E05139', borderRadius: 12, padding: 16 }}
+              style={{ width: '100%', backgroundColor: theme.button, borderRadius: 12, padding: 16 }}
             >
-              <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>{expenseButtonText}</Text>
+              <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold', color: theme.text }}>{expenseButtonText}</Text>
             </CustomBttnSvg>
             
             <Dropdown
               style={styles.dropdown}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
+              placeholderStyle={[styles.placeholderStyle, {color: theme.text}]}
+              selectedTextStyle={[styles.selectedTextStyle, {color: theme.text}]}
+              containerStyle={{backgroundColor: theme.background}}
+              itemTextStyle={{color: theme.text}}
+              itemContainerStyle={{backgroundColor: theme.background}}
+              activeColor={theme.button}
               data={data}
               maxHeight={300}
               labelField="label"

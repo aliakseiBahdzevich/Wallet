@@ -29,19 +29,22 @@ import RootNavigation from './src/navigation/rootNavigation';
 import { store, persistor } from './src/redux/store/store';
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react';
+import {ThemeProvider, useTheme} from './src/context/ThemeContext';
 
 
 
 function App(): React.JSX.Element {
-
+  const {theme, toggleTheme} = useTheme();
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <SafeAreaView style={styles.container}>
-          <StatusBar barStyle="dark-content" />
-          <RootNavigation />
-        </SafeAreaView>
-      </PersistGate>
+      <ThemeProvider>
+        <PersistGate loading={null} persistor={persistor}>
+          <SafeAreaView style={[styles.container, {backgroundColor: theme.background}]}>
+            <StatusBar barStyle="dark-content" />
+            <RootNavigation />
+          </SafeAreaView>
+        </PersistGate>
+      </ThemeProvider>
     </Provider>
   );
 }
@@ -49,7 +52,6 @@ function App(): React.JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white', // или любой цвет, подходящий для вашего приложения
   },
 });
 

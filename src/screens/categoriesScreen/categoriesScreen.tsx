@@ -4,13 +4,17 @@ import Pen from '../../assets/pictures/pen.svg';
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import type { RootState } from '../../redux/store/store';
 import { useAppDispatch, useAppSelector } from '../../redux/store/hooks';
-import { TextInput, Provider as PaperProvider } from 'react-native-paper';
+import { TextInput, Provider as PaperProvider} from 'react-native-paper';
 import { addCategory, changeNameCategory, deleteCategory } from '../../redux/features/categoriesSlice';
 import CategoryModal from '../../components/CategoryModal'
 import CategoryItem from '../../components/CategoryItem';
 import CustomBttnSvg from '../../components/CustomBttnSvg';
+import { useTheme } from '../../context/ThemeContext';
+
 
 const CategoriesScreen = () => {
+
+  const {theme} = useTheme();
 
   const dispatch = useAppDispatch()
   const categories = useAppSelector((state: RootState) => state.categories.categories)
@@ -56,14 +60,14 @@ const CategoriesScreen = () => {
   return (
     <>
     <PaperProvider>
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: theme.background}]}>
       <View style={styles.titleView}>
-        <Text style={styles.title}>Категории расходов</Text>
+        <Text style={[styles.title, {color: theme.text}]}>Категории расходов</Text>
       </View>
       <FlatList data={categories} renderItem={renderItem} />
       
-      <CustomBttnSvg onPress={openModal} style={styles.customBttn}>
-        <Text style={styles.opacityText}>Добавить категорию</Text>
+      <CustomBttnSvg onPress={openModal} style={[styles.customBttn, {backgroundColor: theme.button}]}>
+        <Text style={[styles.opacityText, {color: theme.text}]}>Добавить категорию</Text>
       </CustomBttnSvg>
 
       <CategoryModal
@@ -99,7 +103,6 @@ const styles = StyleSheet.create({
         flex: 1,
         // alignItems: 'center',
         paddingHorizontal: 16,    
-        backgroundColor: '#F7FAFA'
     },
     title: {
         fontSize: 18,
@@ -122,7 +125,7 @@ const styles = StyleSheet.create({
       marginBottom: 16
     },
     opacityText: {
-      color: '#141414', 
+      color: '#FFFFFF', 
       fontWeight: 'bold', 
       fontSize: 16, 
       lineHeight: 24,

@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, FlexAlignType, StyleSheet } from 'react-n
 import Modal from 'react-native-modal';
 import { TextInput } from 'react-native-paper';
 import CustomBttnSvg from '../components/CustomBttnSvg';
+import { useTheme } from '../context/ThemeContext';
 
 interface CategoryModalProps {
     isVisible: boolean;
@@ -27,22 +28,24 @@ const CategoryModal: React.FC<CategoryModalProps> = ({
     onDeleteButtonPress,
     deleteButtonText,
   }) => {
+    const {theme} = useTheme();
     return (
       <Modal isVisible={isVisible} onBackdropPress={onClose} animationIn={"zoomIn"} animationOut={"zoomOut"}>
-        <View style={styles.modalView}>
+        <View style={[styles.modalView, {backgroundColor: theme.background}]}>
           <TextInput
-            style={{ marginBottom: 10, width: '100%' }}
+            style={{ marginBottom: 10, width: '100%', backgroundColor: theme.background }}
             label={label}
             value={inputValue}
             onChangeText={onChangeInput}
             mode='outlined'
+            textColor={theme.text}
           />
-          <CustomBttnSvg onPress={()=>{onButtonPress(); onClose()}} style={{ marginBottom: 10, width: '100%', backgroundColor: '#39E079', borderRadius: 12, padding: 16}}>
-            <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>{buttonText}</Text>
+          <CustomBttnSvg onPress={()=>{onButtonPress(); onClose()}} style={{ marginBottom: 10, width: '100%', backgroundColor: theme.button, borderRadius: 12, padding: 16}}>
+            <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold', color: theme.text }}>{buttonText}</Text>
           </CustomBttnSvg>
           {deleteButtonText && onDeleteButtonPress &&
             <CustomBttnSvg onPress={()=>{onDeleteButtonPress(); onClose()}} style={{width: '100%', backgroundColor: '#E05139', borderRadius: 12, padding: 16}}>
-              <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>{deleteButtonText}</Text>
+              <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold', color: theme.text }}>{deleteButtonText}</Text>
             </CustomBttnSvg>
           }
         </View>

@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import CustomBttnSvg from '../components/CustomBttnSvg';
 import { RootState } from '../redux/store/store';
 import { useAppSelector } from '../redux/store/hooks';
+import { useTheme } from '../context/ThemeContext';
 
 interface BudgetInfoProps {
     label: string;
@@ -18,13 +19,14 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({
     buttonSvg 
 }) => {
     const currency = useAppSelector((state: RootState) => state.budget.currency);
+    const {theme} = useTheme();
     return(
         <View style={styles.budgetView}>
-          <Text style={styles.budgetTextView}>{label}</Text>
+          <Text style={[styles.budgetTextView, {color: theme.text}]}>{label}</Text>
           <View style={{ flex: 1 }} />
-          <Text style={styles.budgetTextView}>{parseFloat(value.toFixed(2))} {currency.symbol}</Text>
+          <Text style={[styles.budgetTextView, {color: theme.text}]}>{parseFloat(value.toFixed(2))} {currency.symbol}</Text>
           {buttonSvg ?
-            <CustomBttnSvg onPress={onPress} style={styles.customBttn}>
+            <CustomBttnSvg onPress={onPress} style={[styles.customBttn, {backgroundColor: theme.button}]}>
                 {buttonSvg}
             </CustomBttnSvg> :
             <View style={{ width: 35, height: 35, marginLeft: 5 }}/>
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
     customBttn: {
         width: 35,
         height: 35, 
-        backgroundColor: '#FFFFF',
+        // backgroundColor: '#FFFFF',
         borderColor: 'grey',
         borderWidth: 1,
         borderRadius: 8,

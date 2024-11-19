@@ -8,6 +8,7 @@ import { currencies } from '../assets/files/currencies';
 import Modal from 'react-native-modal';
 import { useAppDispatch } from '../redux/store/hooks';
 import { chooseCurrency } from '../redux/features/budgetSlice';
+import { useTheme } from '../context/ThemeContext';
 
 
 
@@ -20,6 +21,7 @@ const CurrencyModal: React.FC<CurrencyModalProps> = ({
     isVisible,
     onClose
   }) => {
+    const {theme} = useTheme(); 
     const dispatch = useAppDispatch();
     const [value, setValue] = useState('');
     const [name, setName] = useState('');
@@ -43,13 +45,16 @@ const CurrencyModal: React.FC<CurrencyModalProps> = ({
             }} 
             animationIn={"zoomIn"}
             animationOut={"zoomOut"}>
-            <View style = {styles.modalView}>
+            <View style = {[styles.modalView, {backgroundColor: theme.background}]}>
                 <Dropdown
                     style={styles.dropdown}
-                    placeholderStyle={styles.placeholderStyle}
-                    selectedTextStyle={styles.selectedTextStyle}
-                    inputSearchStyle={styles.inputSearchStyle}
-                    iconStyle={styles.iconStyle}
+                    placeholderStyle={[styles.placeholderStyle, {color: theme.text}]}
+                    selectedTextStyle={[styles.selectedTextStyle, {color: theme.text}]}
+                    containerStyle={{backgroundColor: theme.background}}
+                    itemTextStyle={{color: theme.text}}
+                    itemContainerStyle={{backgroundColor: theme.background}}
+                    activeColor={theme.button}
+                  
                     data={data}
                     maxHeight={300}
                     labelField="label"
@@ -64,10 +69,10 @@ const CurrencyModal: React.FC<CurrencyModalProps> = ({
                     }}            
                 />
         <CustomBttnSvg 
-          style = {styles.button} 
+          style = {[styles.button, {backgroundColor: theme.button}]} 
           onPress = {modalClose}
         >
-          <Text style={styles.buttonText}>Сохранить</Text>
+          <Text style={[styles.buttonText, {color: theme.text}]}>Сохранить</Text>
         </CustomBttnSvg>
         </View>
     </Modal>
@@ -126,7 +131,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   buttonText: {
-    color: '#141414', 
+    color: '#FFFFFF', 
     fontWeight: 'bold', 
     fontSize: 16, 
     lineHeight: 24
